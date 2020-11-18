@@ -1,6 +1,5 @@
 package com.example.myapplicationtest
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.LinearGradient
 import android.graphics.Shader
@@ -18,15 +17,15 @@ class GradientTextView : TextView {
         defStyleAttr
     )
 
-    val color = ContextCompat.getColor(context, R.color.gradientText)
-    val color2 = ContextCompat.getColor(context, R.color.gradientText2)
-    val color3 = ContextCompat.getColor(context, R.color.gradientText3)
-    val listColor =
+    private val color = ContextCompat.getColor(context, R.color.gradientText)
+    private val color2 = ContextCompat.getColor(context, R.color.gradientText2)
+    private val color3 = ContextCompat.getColor(context, R.color.gradientText3)
+    private val listColor =
         listOf(color, color2, color3).toIntArray()
 
     init {
         paint.shader = LinearGradient(
-            0f, textSize, width.toFloat(), 0f,
+            0f, 0f, 0f, height.toFloat(),
             listColor, null,
             Shader.TileMode.CLAMP
         )
