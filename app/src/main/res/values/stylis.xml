@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="RatingBar" parent="android:style/Widget.Material.RatingBar">
-        <item name="android:minHeight">12dp</item>
-        <item name="android:maxHeight">12dp</item>
-        <item name="colorControlNormal">@color/ratingBarPasive</item>
-        <item name="colorControlActivated">@color/ratingBarActive</item>
-    </style>
-
     <style name="heading">
         <item name="android:shadowRadius">12</item>
         <item name="android:shadowDy">6</item>

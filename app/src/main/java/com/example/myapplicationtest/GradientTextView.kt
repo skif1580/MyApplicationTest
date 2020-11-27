@@ -17,15 +17,15 @@ class GradientTextView : TextView {
         defStyleAttr
     )
 
-    private val color = ContextCompat.getColor(context, R.color.gradientText)
-    private val color2 = ContextCompat.getColor(context, R.color.gradientText2)
-    private val color3 = ContextCompat.getColor(context, R.color.gradientText3)
+    private val color = ContextCompat.getColor(context, R.color.gradient_text)
+    private val color2 = ContextCompat.getColor(context, R.color.gradient_text2)
+    private val color3 = ContextCompat.getColor(context, R.color.color_white)
     private val listColor =
         listOf(color, color2, color3).toIntArray()
 
     init {
         paint.shader = LinearGradient(
-            0f, 0f, 0f, height.toFloat(),
+            0f, height.toFloat(), 0f, 0f,
             listColor, null,
             Shader.TileMode.CLAMP
         )
