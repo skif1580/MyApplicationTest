@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".ui.fragment.MoviesListFragment">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/spacing_4x"
+            android:layout_marginTop="56dp"
+            android:src="@drawable/ic_combined_shape"
+            app:layout_constraintEnd_toStartOf="@+id/tvMoviesList"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvMoviesList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/spacing_10x"
+            android:layout_marginTop="55dp"
+            android:layout_marginEnd="135dp"
+            android:text="@string/movies_list_title"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_sub_title"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/ivMoviesList"
+            android:layout_width="170dp"
+            android:layout_height="296dp"
+            android:layout_marginStart="@dimen/spacing_3x"
+            android:layout_marginTop="102dp"
+            android:layout_marginEnd="193dp"
+            android:background="@drawable/ic_border"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.078"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/spacing_0_5x"
+            android:layout_marginTop="@dimen/spacing_0_5x"
+            android:layout_marginEnd="@dimen/spacing_0_5x"
+            android:layout_marginBottom="@dimen/spacing_12x"
+            android:scaleType="center"
+            android:src="@drawable/movie"
+            app:layout_constraintBottom_toBottomOf="@+id/ivMoviesList"
+            app:layout_constraintEnd_toEndOf="@+id/ivMoviesList"
+            app:layout_constraintStart_toStartOf="@+id/ivMoviesList"
+            app:layout_constraintTop_toTopOf="@+id/ivMoviesList" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/spacing_0_5x"
+            android:layout_marginTop="@dimen/spacing_0_5x"
+            android:layout_marginEnd="@dimen/spacing_0_5x"
+            android:layout_marginBottom="@dimen/spacing_12x"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_mask__movies"
+            app:layout_constraintBottom_toBottomOf="@+id/ivMoviesList"
+            app:layout_constraintEnd_toEndOf="@+id/ivMoviesList"
+            app:layout_constraintStart_toStartOf="@+id/ivMoviesList"
+            app:layout_constraintTop_toTopOf="@+id/ivMoviesList" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="146dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="@dimen/spacing_2x"
+            android:src="@drawable/ic_like"
+            app:layout_constraintEnd_toEndOf="@+id/ivMoviesList"
+            app:layout_constraintStart_toStartOf="@+id/ivMoviesList"
+            app:layout_constraintTop_toTopOf="@+id/ivMoviesList" />
+
+        <TextView
+            android:id="@+id/tvYear"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="@dimen/spacing_2x"
+            android:layout_marginTop="@dimen/spacing_2x"
+            android:background="@drawable/ic_rectangle__movie"
+            android:backgroundTint="@color/background_color"
+            android:gravity="center"
+            android:text="@string/_13_movie_year"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_body"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/ivMoviesList"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/ivMoviesList"
+            app:layout_constraintTop_toTopOf="@+id/ivMoviesList" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="214dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="70dp"
+            android:text="@string/avengers_movie_tags"
+            android:textColor="@color/pink_dark"
+            android:textSize="@dimen/text_size_movie_tags"
+            app:layout_constraintEnd_toEndOf="@+id/ivMoviesList"
+            app:layout_constraintStart_toStartOf="@+id/ivMoviesList"
+            app:layout_constraintTop_toTopOf="@+id/ivMoviesList" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/spacing_2x"
+            android:layout_marginTop="230dp"
+            android:layout_marginEnd="154dp"
+            android:src="@drawable/ic_star_icon__movie"
+            app:layout_constraintEnd_toEndOf="@+id/ivMoviesList"
+            app:layout_constraintStart_toStartOf="@+id/ivMoviesList"
+            app:layout_constraintTop_toTopOf="@+id/ivMoviesList"
+            app:tint="@color/pink_light" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="230dp"
+            android:layout_marginEnd="144dp"
+            android:src="@drawable/ic_star_icon__movie"
+            app:layout_constraintEnd_toEndOf="@+id/ivMoviesList"
+            app:layout_constraintStart_toStartOf="@+id/ivMoviesList"
+            app:layout_constraintTop_toTopOf="@+id/ivMoviesList"
+            app:tint="@color/pink_light" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="230dp"
+            android:layout_marginEnd="134dp"
+            android:src="@drawable/ic_star_icon__movie"
+            app:layout_constraintEnd_toEndOf="@+id/ivMoviesList"
+            app:layout_constraintStart_toStartOf="@+id/ivMoviesList"
+            app:layout_constraintTop_toTopOf="@+id/ivMoviesList"
+            app:tint="@color/pink_light" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="230dp"
+            android:layout_marginEnd="124dp"
+            android:src="@drawable/ic_star_icon__movie"
+            app:layout_constraintEnd_toEndOf="@+id/ivMoviesList"
+            app:layout_constraintStart_toStartOf="@+id/ivMoviesList"
+            app:layout_constraintTop_toTopOf="@+id/ivMoviesList"
+            app:tint="@color/pink_light" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="230dp"
+            android:layout_marginEnd="114dp"
+            android:src="@drawable/ic_star_icon__movie"
+            app:layout_constraintEnd_toEndOf="@+id/ivMoviesList"
+            app:layout_constraintStart_toStartOf="@+id/ivMoviesList"
+            app:layout_constraintTop_toTopOf="@+id/ivMoviesList" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="228dp"
+            android:layout_marginEnd="53dp"
+            android:gravity="center_vertical"
+            android:text="@string/reviews_count"
+            android:textColor="@color/gray_dark"
+            android:textSize="@dimen/text_size_movie_tags"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/ivMoviesList"
+            app:layout_constraintStart_toStartOf="@+id/ivMoviesList"
+            app:layout_constraintTop_toTopOf="@+id/ivMoviesList" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_2x"
+            android:layout_marginTop="256dp"
+            android:layout_marginEnd="@dimen/spacing_2x"
+            android:gravity="center_vertical"
+            android:text="@string/movie_name"
+            android:textSize="@dimen/text_size_sub_title"
+            android:textStyle="bold"
+            android:textColor="@color/gradient_text"
+            app:layout_constraintEnd_toEndOf="@+id/ivMoviesList"
+            app:layout_constraintStart_toStartOf="@+id/ivMoviesList"
+            app:layout_constraintTop_toTopOf="@+id/ivMoviesList" />
+
+        <TextView
+            android:layout_width="154dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="@dimen/spacing_2x"
+            android:layout_marginTop="276dp"
+            android:layout_marginEnd="@dimen/spacing_2x"
+            android:gravity="center_vertical"
+            android:text="@string/movie_duration"
+            android:textColor="@color/gray_dark2"
+            android:textSize="@dimen/text_size_movie_tags"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/ivMoviesList"
+            app:layout_constraintStart_toStartOf="@+id/ivMoviesList"
+            app:layout_constraintTop_toTopOf="@+id/ivMoviesList" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
