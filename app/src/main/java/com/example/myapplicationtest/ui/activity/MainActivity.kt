@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.FragmentTransaction
 import com.example.myapplicationtest.R
+import com.example.myapplicationtest.ui.fragment.ClickMovies
+import com.example.myapplicationtest.ui.fragment.MovieDetailsFragment
 import com.example.myapplicationtest.ui.fragment.MoviesListFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ClickMovies {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,7 +17,15 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fl_container, MoviesListFragment.newInstance())
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .addToBackStack("panel").commit()
+                .commit()
         }
+    }
+
+    override fun clickMoviesListener() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fl_container, MovieDetailsFragment.newInstance())
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .addToBackStack("panel")
+            .commit()
     }
 }
