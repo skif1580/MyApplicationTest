@@ -223,102 +223,17 @@
             app:layout_constraintStart_toEndOf="@+id/root_left_guideline"
             app:layout_constraintTop_toBottomOf="@+id/movie_storyline_text" />
 
-        <ImageView
-            android:id="@+id/movie_cast1_image"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/spacing_2x"
-            android:src="@drawable/robert"
-            app:layout_constraintDimensionRatio="1,1"
-            app:layout_constraintEnd_toStartOf="@+id/movie_cast2_image"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_actor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="@dimen/spacing_4x"
             app:layout_constraintStart_toEndOf="@+id/root_left_guideline"
-            app:layout_constraintTop_toBottomOf="@+id/movie_cast_title_text"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/movie_cast2_image"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/spacing_2x"
-            android:src="@drawable/chris"
-            app:layout_constraintDimensionRatio="1,1"
-            app:layout_constraintEnd_toStartOf="@+id/movie_cast3_image"
-            app:layout_constraintStart_toEndOf="@+id/movie_cast1_image"
-            app:layout_constraintTop_toTopOf="@+id/movie_cast1_image"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/movie_cast3_image"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/spacing_2x"
-            android:src="@drawable/mark"
-            app:layout_constraintDimensionRatio="1,1"
-            app:layout_constraintEnd_toStartOf="@+id/movie_cast4_image"
-            app:layout_constraintStart_toEndOf="@+id/movie_cast2_image"
-            app:layout_constraintTop_toTopOf="@+id/movie_cast1_image"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/movie_cast4_image"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/spacing_2x"
-            android:src="@drawable/hemaworth"
-            app:layout_constraintDimensionRatio="1,1"
             app:layout_constraintEnd_toStartOf="@id/root_right_guideline"
-            app:layout_constraintStart_toEndOf="@+id/movie_cast3_image"
-            app:layout_constraintTop_toTopOf="@+id/movie_cast1_image"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/movie_cast1_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_2x"
-            android:text="@string/movie_cast_1_name"
-            android:textColor="@color/gray_light"
-            android:textSize="@dimen/text_size_body"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/movie_cast1_image"
-            app:layout_constraintStart_toStartOf="@+id/movie_cast1_image"
-            app:layout_constraintTop_toBottomOf="@+id/movie_cast1_image" />
-
-        <TextView
-            android:id="@+id/movie_cast2_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/movie_cast_2_name"
-            android:textColor="@color/gray_light"
-            android:textSize="@dimen/text_size_body"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/movie_cast2_image"
-            app:layout_constraintStart_toStartOf="@+id/movie_cast2_image"
-            app:layout_constraintTop_toTopOf="@+id/movie_cast1_text" />
-
-        <TextView
-            android:id="@+id/movie_cast3_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/movie_cast_3_name"
-            android:textColor="@color/gray_light"
-            android:textSize="@dimen/text_size_body"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/movie_cast3_image"
-            app:layout_constraintStart_toStartOf="@+id/movie_cast3_image"
-            app:layout_constraintTop_toTopOf="@+id/movie_cast1_text" />
-
-        <TextView
-            android:id="@+id/movie_cast4_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/movie_cast_4_name"
-            android:textColor="@color/gray_light"
-            android:textSize="@dimen/text_size_body"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/movie_cast4_image"
-            app:layout_constraintStart_toStartOf="@+id/movie_cast4_image"
-            app:layout_constraintTop_toTopOf="@+id/movie_cast1_text" />
+            app:layout_constraintTop_toBottomOf="@+id/movie_cast_title_text"
+            tools:listitem="@layout/item_movies_detail"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

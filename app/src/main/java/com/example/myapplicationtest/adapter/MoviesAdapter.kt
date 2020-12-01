@@ -8,9 +8,6 @@ import com.example.myapplicationtest.model.Movies
 class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesHolder>() {
     private var listMovies = listOf<Movies>()
 
-    class MoviesHolder(private val itemMovies: ItemMoviesListBinding) :
-        RecyclerView.ViewHolder(itemMovies.root) {}
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesHolder {
         TODO("Not yet implemented")
     }
@@ -20,4 +17,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesHolder>() {
     }
 
     override fun getItemCount(): Int = listMovies.size
+
+    class MoviesHolder(private val itemMovies: ItemMoviesListBinding) :
+        RecyclerView.ViewHolder(itemMovies.root) {}
 }
