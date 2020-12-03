@@ -9,32 +9,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplicationtest.R
 import com.example.myapplicationtest.model.Actor
+import com.example.myapplicationtest.model.Movies
 
 class ActorAdapter(private val listActor: List<Actor>) :
-    RecyclerView.Adapter<ActorAdapter.ViewHolder>() {
+    RecyclerView.Adapter<ActorAdapter.DetailsViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailsViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_movies_detail, parent, false)
-        return ViewHolder(view)
+        return DetailsViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DetailsViewHolder, position: Int) {
         holder.bin(listActor[position])
     }
 
     override fun getItemCount(): Int = listActor.size
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        private val tvName = itemView.findViewById<TextView>(R.id.tv_actor_name)
-        private val ivActor = itemView.findViewById<ImageView>(R.id.iv_actor_details)
+    class DetailsViewHolder(item: View) : RecyclerView.ViewHolder(item) {
+        private val tvName = item.findViewById<TextView>(R.id.tv_actor_name)
+        private val ivActor = item.findViewById<ImageView>(R.id.iv_actor_details)
 
         fun bin(actor: Actor) {
             tvName.text = actor.name
-            Glide.with(itemView)
-                .load(actor.urlImage)
-                .into(ivActor)
+            ivActor.setImageResource(actor.urlImage)
         }
     }
 }
