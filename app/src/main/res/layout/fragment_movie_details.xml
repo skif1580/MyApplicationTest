@@ -169,7 +169,6 @@
             app:layout_constraintBottom_toBottomOf="@+id/movie_rating_star1_image"
             app:layout_constraintStart_toEndOf="@+id/movie_rating_star4_image"
             app:layout_constraintTop_toTopOf="@+id/movie_rating_star1_image"
-            app:tint="@color/gray_dark"
             tools:ignore="ContentDescription" />
 
         <TextView

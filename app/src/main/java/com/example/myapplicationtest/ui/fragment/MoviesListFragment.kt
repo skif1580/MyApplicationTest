@@ -75,7 +75,6 @@ class MoviesListFragment : Fragment() {
                 false
             )
         )
-
     }
 
     override fun onAttach(context: Context) {

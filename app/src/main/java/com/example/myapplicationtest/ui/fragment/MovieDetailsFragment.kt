@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -22,11 +23,10 @@ class MovieDetailsFragment : Fragment() {
     private var tvAge: TextView? = null
     private var tvMovieTags: TextView? = null
     private var tvMovieCount: TextView? = null
-    private var ivMovie: ImageView? = null
-
-    private var listActor = mutableListOf<Actor>()
     private var rvActor: RecyclerView? = null
+    private var ivStar: ImageView? = null
     private var movies: Movies? = null
+    private var listActor = mutableListOf<Actor>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,12 +62,17 @@ class MovieDetailsFragment : Fragment() {
         tvMovieTags?.text = movies?.tagMovie
         tvMovieCount = view.findViewById(R.id.movie_reviews_count_text)
         tvMovieCount?.text = movies?.movieCount
+        ivStar = view.findViewById(R.id.movie_rating_star5_image)
+        if (movies?.countStar!! > 4) {
+            ivStar?.setColorFilter(ContextCompat.getColor(view.context, R.color.pink_light))
+        }
     }
 
     private fun initRecycler(view: View) {
+        val star = movies?.countStar
         rvActor = view.findViewById(R.id.rv_actor)
         rvActor?.apply {
-            adapter = ActorAdapter(listActor)
+            adapter = ActorAdapter(listActor, star!!)
             addItemDecoration(SpacesItemDecoration(8))
             layoutManager =
                 LinearLayoutManager(view.context, LinearLayoutManager.HORIZONTAL, false)

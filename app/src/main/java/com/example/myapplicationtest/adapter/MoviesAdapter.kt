@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplicationtest.R
@@ -44,6 +45,7 @@ class MoviesAdapter(private val listMovies: List<Movies>) :
         private val tvMovieDuration = item.findViewById<TextView>(R.id.tv_movie_duration)
         private val ivMovieImage = item.findViewById<ImageView>(R.id.iv_movie_image)
         private val ivMovieLike = item.findViewById<ImageView>(R.id.iv_like)
+        private val ivStar = item.findViewById<ImageView>(R.id.star_movie)
 
         fun bin(movies: Movies) {
             tvMovieName.text = movies.name
@@ -52,11 +54,20 @@ class MoviesAdapter(private val listMovies: List<Movies>) :
             tvMovieCount.text = movies.movieCount
             tvMovieDuration.text = movies.movieDuration
             if (movies.movieLike) {
-                ivMovieLike.setColorFilter(R.color.pink_light)
+                ivMovieLike.setColorFilter(
+                    ContextCompat.getColor(
+                        itemView.context,
+                        R.color.pink_light
+                    )
+                )
             }
             Glide.with(itemView)
                 .load(movies.movieImage)
                 .into(ivMovieImage)
+
+            if (movies.countStar>4){
+                ivStar.setColorFilter(ContextCompat.getColor(itemView.context, R.color.pink_light))
+            }
         }
     }
 }
