@@ -9,14 +9,14 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplicationtest.R
-import com.example.myapplicationtest.model.Movies
+import com.example.myapplicationtest.data.Movie
 
-class MoviesAdapter(private val listMovies: List<Movies>) :
+class MoviesAdapter(private val listMovies: List<Movie>) :
     RecyclerView.Adapter<MoviesAdapter.MoviesHolder>() {
 
-    private var clickListenerCallback: ((movie: Movies) -> Unit)? = null
+    private var clickListenerCallback: ((movie: Movie) -> Unit)? = null
 
-    fun clickListener(po: (movie: Movies) -> Unit) {
+    fun clickListener(po: (movie: Movie) -> Unit) {
         clickListenerCallback = po
     }
 
@@ -43,31 +43,108 @@ class MoviesAdapter(private val listMovies: List<Movies>) :
         private val tvMovieYear = item.findViewById<TextView>(R.id.tv_year)
         private val tvMovieCount = item.findViewById<TextView>(R.id.tv_movie_reviews_count)
         private val tvMovieDuration = item.findViewById<TextView>(R.id.tv_movie_duration)
-        private val ivMovieImage = item.findViewById<ImageView>(R.id.iv_movie_image)
+        private val ivMovieImage = item.findViewById<ImageView>(R.id.ivMoviePoster)
         private val ivMovieLike = item.findViewById<ImageView>(R.id.iv_like)
-        private val ivStar = item.findViewById<ImageView>(R.id.star_movie)
+        private val ivStar1 = item.findViewById<ImageView>(R.id.star_movie_1)
+        private val ivStar2 = item.findViewById<ImageView>(R.id.star_movie_2)
+        private val ivStar3 = item.findViewById<ImageView>(R.id.star_movie_3)
+        private val ivStar4 = item.findViewById<ImageView>(R.id.star_movie_4)
+        private val ivStar5 = item.findViewById<ImageView>(R.id.star_movie_5)
 
-        fun bin(movies: Movies) {
-            tvMovieName.text = movies.name
-            tvMovieTag.text = movies.tagMovie
-            tvMovieYear.text = movies.movieYear
-            tvMovieCount.text = movies.movieCount
-            tvMovieDuration.text = movies.movieDuration
-            if (movies.movieLike) {
-                ivMovieLike.setColorFilter(
+        fun bin(movies: Movie) {
+            val rating = getRatings(movies.ratings)
+            tvMovieName.text = movies.title
+            tvMovieTag.text = getMovieTeg(movies)
+            tvMovieYear.text = movies.minimumAge.toString()
+            tvMovieCount.text = movies.numberOfRatings.toString()
+            tvMovieDuration.text = movies.runtime.toString()
+            if (movies.poster.isEmpty()) {
+                Glide.with(itemView)
+                    .load(movies.poster)
+                    .into(ivMovieImage)
+            }
+            when (rating) {
+
+                1 -> {
+                    ivStar2.setColorFilter(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.gray_dark
+                        )
+                    )
+                    ivStar3.setColorFilter(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.gray_dark
+                        )
+                    )
+                    ivStar4.setColorFilter(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.gray_dark
+                        )
+                    )
+                    ivStar5.setColorFilter(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.gray_dark
+                        )
+                    )
+                }
+
+                2 -> {
+                    ivStar3.setColorFilter(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.gray_dark
+                        )
+                    )
+                    ivStar4.setColorFilter(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.gray_dark
+                        )
+                    )
+                    ivStar5.setColorFilter(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.gray_dark
+                        )
+                    )
+                }
+
+                3 -> {
+                    ivStar4.setColorFilter(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.gray_dark
+                        )
+                    )
+                    ivStar5.setColorFilter(
+                        ContextCompat.getColor(
+                            itemView.context,
+                            R.color.gray_dark
+                        )
+                    )
+                }
+
+                4 -> ivStar5.setColorFilter(
                     ContextCompat.getColor(
                         itemView.context,
-                        R.color.pink_light
+                        R.color.gray_dark
                     )
                 )
             }
-            Glide.with(itemView)
-                .load(movies.movieImage)
-                .into(ivMovieImage)
+        }
 
-            if (movies.countStar>4){
-                ivStar.setColorFilter(ContextCompat.getColor(itemView.context, R.color.pink_light))
+        private fun getRatings(ratings: Float): Int = (ratings / 2).toInt()
+
+        private fun getMovieTeg(movie: Movie): String {
+            val teg = mutableListOf<String>()
+            for (id in movie.genres) {
+                teg.add(id.name)
             }
+            return teg.joinToString(",")
         }
     }
 }

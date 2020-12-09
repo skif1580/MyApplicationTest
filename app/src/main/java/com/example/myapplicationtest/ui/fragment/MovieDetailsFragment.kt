@@ -4,17 +4,20 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.INVISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplicationtest.R
 import com.example.myapplicationtest.adapter.ActorAdapter
-import com.example.myapplicationtest.model.Actor
-import com.example.myapplicationtest.model.Movies
+import com.example.myapplicationtest.data.Actor
+import com.example.myapplicationtest.data.Movie
 import com.example.myapplicationtest.util.SpacesItemDecoration
 
 class MovieDetailsFragment : Fragment() {
@@ -24,19 +27,14 @@ class MovieDetailsFragment : Fragment() {
     private var tvMovieTags: TextView? = null
     private var tvMovieCount: TextView? = null
     private var rvActor: RecyclerView? = null
+    private var ivMovie: ImageView? = null
     private var ivStar: ImageView? = null
-    private var movies: Movies? = null
-    private var listActor = mutableListOf<Actor>()
+    private var movies: Movie? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        listActor.add(Actor(resources.getString(R.string.movie_cast_1_name), R.drawable.robert))
-        listActor.add(Actor(resources.getString(R.string.movie_cast_2_name), R.drawable.chris))
-        listActor.add(Actor(resources.getString(R.string.movie_cast_3_name), R.drawable.mark))
-        listActor.add(Actor(resources.getString(R.string.movie_cast_4_name), R.drawable.hemaworth))
-
         arguments?.let {
-            movies = it.getSerializable("FILM") as Movies?
+            movies = it.getSerializable(KEY) as Movie?
         }
     }
 
@@ -55,36 +53,49 @@ class MovieDetailsFragment : Fragment() {
 
     private fun initUi(view: View) {
         tvNameMovie = view.findViewById(R.id.movie_name_text)
-        tvNameMovie?.text = movies?.name
+        tvNameMovie?.text = movies?.title
         tvAge = view.findViewById(R.id.movie_age_restrictions_text)
-        tvAge?.text = movies?.movieYear
+        tvAge?.text = movies?.minimumAge?.toString()
         tvMovieTags = view.findViewById(R.id.movie_tags_text)
-        tvMovieTags?.text = movies?.tagMovie
+        tvMovieTags?.text = getMovieTeg(movies!!)
         tvMovieCount = view.findViewById(R.id.movie_reviews_count_text)
-        tvMovieCount?.text = movies?.movieCount
+        tvMovieCount?.text = movies?.numberOfRatings?.toString()
         ivStar = view.findViewById(R.id.movie_rating_star5_image)
-        if (movies?.countStar!! > 4) {
-            ivStar?.setColorFilter(ContextCompat.getColor(view.context, R.color.pink_light))
-        }
+        ivMovie = view.findViewById(R.id.movie_logo_image)
+        Glide.with(view.context)
+            .load(movies?.backdrop)
+            .into(ivMovie!!)
     }
 
     private fun initRecycler(view: View) {
-        val star = movies?.countStar
         rvActor = view.findViewById(R.id.rv_actor)
-        rvActor?.apply {
-            adapter = ActorAdapter(listActor, star!!)
-            addItemDecoration(SpacesItemDecoration(8))
-            layoutManager =
-                LinearLayoutManager(view.context, LinearLayoutManager.HORIZONTAL, false)
+        if (movies?.actors?.isEmpty() == true) {
+            rvActor?.visibility = GONE
+        } else {
+            rvActor?.apply {
+                adapter = movies?.actors?.let { ActorAdapter(it) }
+                addItemDecoration(SpacesItemDecoration(8))
+                layoutManager =
+                    LinearLayoutManager(view.context, LinearLayoutManager.HORIZONTAL, false)
+            }
         }
     }
 
-    companion object {
+    private fun getMovieTeg(movie: Movie): String {
+        val teg = mutableListOf<String>()
+        for (id in movie.genres) {
+            teg.add(id.name)
+        }
+        return teg.joinToString(",")
+    }
 
-        fun newInstance(movies: Movies) =
+    companion object {
+        private const val KEY = "Movie"
+
+        fun newInstance(movies: Movie) =
             MovieDetailsFragment().apply {
                 arguments = Bundle().apply {
-                    putSerializable("FILM", movies)
+                    putSerializable(KEY, movies)
                 }
             }
     }

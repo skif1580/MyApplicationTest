@@ -8,8 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/background_color">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:layout_width="0dp"
@@ -40,14 +39,16 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMovies"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_marginEnd="14dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="33dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvMoviesList"/>
+            app:layout_constraintTop_toBottomOf="@id/tvMoviesList"
+            tools:listitem="@layout/item_movies_list"
+            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:spanCount="2"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

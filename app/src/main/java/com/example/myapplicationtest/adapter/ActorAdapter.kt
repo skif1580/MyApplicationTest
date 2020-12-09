@@ -5,13 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.myapplicationtest.R
-import com.example.myapplicationtest.model.Actor
-import java.security.AccessController.getContext
+import com.example.myapplicationtest.data.Actor
 
-class ActorAdapter(private val listActor: List<Actor>, private val star: Int) :
+class ActorAdapter(private val actor: List<Actor>) :
     RecyclerView.Adapter<ActorAdapter.DetailsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailsViewHolder {
@@ -21,19 +20,21 @@ class ActorAdapter(private val listActor: List<Actor>, private val star: Int) :
     }
 
     override fun onBindViewHolder(holder: DetailsViewHolder, position: Int) {
-        holder.bin(listActor[position], star)
+        holder.bin(actor[position])
     }
 
-    override fun getItemCount(): Int = listActor.size
+    override fun getItemCount(): Int = actor.size
 
     class DetailsViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         private val tvName = item.findViewById<TextView>(R.id.tv_actor_name)
         private val ivActor = item.findViewById<ImageView>(R.id.iv_actor_details)
 
 
-        fun bin(actor: Actor, star: Int) {
+        fun bin(actor: Actor) {
             tvName.text = actor.name
-            ivActor.setImageResource(actor.urlImage)
+            Glide.with(itemView.context)
+                .load(actor.picture)
+                .into(ivActor)
         }
     }
 }
