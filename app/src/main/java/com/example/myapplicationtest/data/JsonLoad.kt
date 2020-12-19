@@ -42,7 +42,7 @@ private class JsonMovie(
 )
 
 private suspend fun loadGenres(context: Context): List<Genre> = withContext(Dispatchers.IO) {
-    val data = readAssetFileToString(context, "genres.json")
+    val data = readAssetFileToString(context, "genres")
     parseGenres(data)
 }
 
@@ -57,7 +57,7 @@ private fun readAssetFileToString(context: Context, fileName: String): String {
 }
 
 private suspend fun loadActors(context: Context): List<Actor> = withContext(Dispatchers.IO) {
-    val data = readAssetFileToString(context, "people.json")
+    val data = readAssetFileToString(context, "people")
     parseActors(data)
 }
 
@@ -71,7 +71,7 @@ internal suspend fun loadMovies(context: Context): List<Movie> = withContext(Dis
     val genresMap = loadGenres(context)
     val actorsMap = loadActors(context)
 
-    val data = readAssetFileToString(context, "data.json")
+    val data = readAssetFileToString(context, "data")
     parseMovies(data, genresMap, actorsMap)
 }
 
