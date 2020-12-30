@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -15,6 +16,7 @@ import com.example.myapplicationtest.R
 import com.example.myapplicationtest.adapter.ActorAdapter
 import com.example.myapplicationtest.data.Movie
 import com.example.myapplicationtest.extends.setTintColor
+import com.example.myapplicationtest.viewmodel.MoviesViewModel
 import kotlin.math.roundToInt
 
 class MovieDetailsFragment : Fragment() {
@@ -33,12 +35,10 @@ class MovieDetailsFragment : Fragment() {
     private var ratingStar5: ImageView? = null
     private var movies: Movie? = null
     private var actorAdapter: ActorAdapter? = null
+    private val viewModel = ViewModelProvider(activity!!).get(MoviesViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            movies = it.getSerializable(KEY) as Movie?
-        }
         actorAdapter = ActorAdapter()
     }
 
@@ -51,6 +51,9 @@ class MovieDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.liveDataMovie.observe(this, {
+            movies = it
+        })
         initUi(view)
         initRecycler(view)
         initRatingStar(view, movies)
@@ -144,11 +147,6 @@ class MovieDetailsFragment : Fragment() {
     companion object {
         private const val KEY = "Movie"
 
-        fun newInstance(movies: Movie) =
-            MovieDetailsFragment().apply {
-                arguments = Bundle().apply {
-                    putSerializable(KEY, movies)
-                }
-            }
+        fun newInstance(movies: Movie) = MovieDetailsFragment()
     }
 }

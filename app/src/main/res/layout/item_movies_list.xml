@@ -193,5 +193,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/crv_item_movies"
         app:layout_constraintStart_toStartOf="@+id/crv_item_movies" />
-    
+
 </androidx.constraintlayout.widget.ConstraintLayout>

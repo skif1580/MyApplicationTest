@@ -6,16 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplicationtest.R
 import com.example.myapplicationtest.adapter.MoviesAdapter
 import com.example.myapplicationtest.data.Movie
 import com.example.myapplicationtest.data.loadMovies
+import com.example.myapplicationtest.viewmodel.MoviesViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import java.util.Date.from
 
 
 class MoviesListFragment : Fragment() {
@@ -23,10 +27,11 @@ class MoviesListFragment : Fragment() {
     private var clickListener: ClickMovies? = null
     private var rvMovies: RecyclerView? = null
     private var moviesAdapter: MoviesAdapter? = null
-    private val scope = CoroutineScope(Dispatchers.Main)
+    private val viewModel = ViewModelProvider(activity!!).get(MoviesViewModel::class.java)
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        viewModel.getListMovie(context)
         if (context is ClickMovies) {
             clickListener = context
         }
@@ -47,9 +52,9 @@ class MoviesListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi(view)
-        scope.launch {
-            moviesAdapter?.swapData(loadMovies(view.context))
-        }
+        viewModel.liveData.observe(this,{
+            moviesAdapter?.swapData(it)
+        })
     }
 
     private fun initUi(view: View) {
@@ -62,6 +67,7 @@ class MoviesListFragment : Fragment() {
         }
         moviesAdapter?.clickListener {
             clickListener?.clickMoviesListener(it)
+            viewModel.getItemMovie(it.id)
         }
     }
 
@@ -73,7 +79,6 @@ class MoviesListFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         clickListener = null
-        scope.cancel()
     }
 }
 
