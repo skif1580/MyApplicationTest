@@ -22,9 +22,9 @@ class MainActivity : AppCompatActivity(), ClickMovies {
         }
     }
 
-    override fun clickMoviesListener(movies: Movie) {
+    override fun clickMoviesListener(id: Int) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fl_container, MovieDetailsFragment.newInstance(movies))
+            .replace(R.id.fl_container, MovieDetailsFragment.newInstance(id))
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .addToBackStack("panel")
             .commit()

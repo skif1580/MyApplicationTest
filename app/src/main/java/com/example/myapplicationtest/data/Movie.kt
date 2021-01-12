@@ -1,17 +1,18 @@
 package com.example.myapplicationtest.data
 
-import java.io.Serializable
-
 data class Movie(
-    val id: Int,
-    val title: String,
+    val posterPath: String,
+    val adult: Boolean,
     val overview: String,
-    val poster: String,
-    val backdrop: String,
-    val ratings: Float,
-    val numberOfRatings: Int,
-    val minimumAge: Int,
-    val runtime: Int,
-    val genres: List<Genre>,
-    val actors: List<Actor>
-):Serializable
+    val releaseDate: String,
+    val genreIDS: List<String>,
+    val id: Long,
+    val originalTitle: String,
+    val originalLanguage: String,
+    val title: String,
+    val backdropPath: String,
+    val popularity: Double,
+    val voteCount: Long,
+    val video: Boolean,
+    val voteAverage: Double
+)

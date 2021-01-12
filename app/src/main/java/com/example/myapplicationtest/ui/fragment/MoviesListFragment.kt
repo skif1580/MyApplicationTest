@@ -4,34 +4,33 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplicationtest.R
 import com.example.myapplicationtest.adapter.MoviesAdapter
 import com.example.myapplicationtest.data.Movie
-import com.example.myapplicationtest.data.loadMovies
 import com.example.myapplicationtest.viewmodel.MoviesViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
-import java.util.Date.from
+import com.example.myapplicationtest.viewmodel.State
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.compat.ScopeCompat.viewModel
 
 
 class MoviesListFragment : Fragment() {
 
     private var clickListener: ClickMovies? = null
     private var rvMovies: RecyclerView? = null
+    private var progressBar: ProgressBar? = null
     private var moviesAdapter: MoviesAdapter? = null
-    private val viewModel = ViewModelProvider(activity!!).get(MoviesViewModel::class.java)
+    private val viewModel: MoviesViewModel by  inject()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        viewModel.getListMovie(context)
         if (context is ClickMovies) {
             clickListener = context
         }
@@ -39,6 +38,7 @@ class MoviesListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.getTopMovies()
         moviesAdapter = MoviesAdapter()
     }
 
@@ -52,10 +52,25 @@ class MoviesListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUi(view)
-        viewModel.liveData.observe(this,{
-            moviesAdapter?.swapData(it)
-        })
+        viewModel.stateLiveData.observe(viewLifecycleOwner, this::setState)
     }
+
+    private fun setState(state: State) =
+        when (state) {
+            is State.Default -> {
+                showDefault()
+            }
+            is State.Loading -> {
+                showLoad()
+            }
+            is State.Success -> {
+                showData(state.listMovie)
+            }
+            is State.Error -> {
+                showErrorMessage(state.error)
+            }
+        }
+
 
     private fun initUi(view: View) {
         rvMovies = view.findViewById(R.id.rvMovies)
@@ -67,8 +82,29 @@ class MoviesListFragment : Fragment() {
         }
         moviesAdapter?.clickListener {
             clickListener?.clickMoviesListener(it)
-            viewModel.getItemMovie(it.id)
         }
+        progressBar = view.findViewById(R.id.pbLoad)
+    }
+
+    private fun showDefault() {
+        progressBar?.isVisible = false
+        rvMovies?.isVisible = false
+    }
+
+    private fun showLoad() {
+        progressBar?.isVisible = true
+        rvMovies?.isVisible = false
+    }
+
+    private fun showData(listMovie: List<Movie>) {
+        progressBar?.visibility = GONE
+        rvMovies?.isVisible = true
+        moviesAdapter?.swapData(listMovie)
+    }
+
+    private fun showErrorMessage(pair: Pair<Int, String>) {
+        progressBar?.visibility = GONE
+        rvMovies?.isVisible = false
     }
 
     companion object {
@@ -83,5 +119,5 @@ class MoviesListFragment : Fragment() {
 }
 
 interface ClickMovies {
-    fun clickMoviesListener(movies: Movie)
+    fun clickMoviesListener(id: Int)
 }

@@ -23,9 +23,9 @@ import kotlin.math.roundToInt
 class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesHolder>() {
 
     private var items = listOf<Movie>()
-    private var clickListenerCallback: ((movie: Movie) -> Unit)? = null
+    private var clickListenerCallback: ((id: Int) -> Unit)? = null
 
-    fun clickListener(po: (movie: Movie) -> Unit) {
+    fun clickListener(po: (id:Int) -> Unit) {
         clickListenerCallback = po
     }
 
@@ -38,7 +38,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesHolder>() {
     override fun onBindViewHolder(holder: MoviesHolder, position: Int) {
         holder.bin(items[position])
         holder.itemView.setOnClickListener {
-            clickListenerCallback?.invoke(items[position])
+            clickListenerCallback?.invoke(items[position].id.toInt())
         }
     }
 
@@ -56,7 +56,6 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesHolder>() {
         private val tvMovieTag = item.findViewById<TextView>(R.id.tv_movie_tags)
         private val tvMovieYear = item.findViewById<TextView>(R.id.tv_year)
         private val tvMovieCount = item.findViewById<TextView>(R.id.tv_movie_reviews_count)
-        private val tvMovieDuration = item.findViewById<TextView>(R.id.tv_movie_duration)
         private val ivMovieImage = item.findViewById<ImageView>(R.id.ivMoviePoster)
         private val ivMovieLike = item.findViewById<ImageView>(R.id.iv_like)
         private val ivStar1 = item.findViewById<ImageView>(R.id.star_movie_1)
@@ -66,52 +65,46 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesHolder>() {
         private val ivStar5 = item.findViewById<ImageView>(R.id.star_movie_5)
 
         @SuppressLint("SetTextI18n")
-        fun bin(movies: Movie) {
-            val rating = getRatings(movies.ratings)
-            tvMovieName.text = movies.title
-            tvMovieTag.text = getMovieTeg(movies)
-            tvMovieYear.text = "%s+".format(movies.minimumAge.toString())
-            tvMovieCount.text = "%s Reviews".format(movies.numberOfRatings.toString())
-            tvMovieDuration.text = "%s  MIN".format(movies.runtime.toString())
+        fun bin(movie: Movie) {
+            val rating = movie.voteAverage.roundToInt() / 2
+            tvMovieName.text = movie.title
+            tvMovieTag.text = movie.genreIDS.joinToString(", ")
+            if (movie.adult) {
+                tvMovieYear.text = "%s+".format(13.toString())
+            } else {
+                tvMovieYear.text = "16+"
+            }
+            tvMovieCount.text = "%s Reviews".format(movie.voteCount.toString())
 
-            val transform = MultiTransformation(CenterCrop(),GranularRoundedCorners(16f, 16f,0f,0f))
+            val transform =
+                MultiTransformation(CenterCrop(), GranularRoundedCorners(16f, 16f, 0f, 0f))
             Glide.with(itemView)
-                .load(movies.poster)
+                .load(movie.posterPath)
                 .apply(RequestOptions.bitmapTransform(transform))
                 .into(ivMovieImage)
 
             when (rating) {
 
                 1 -> {
-                    ivStar2.setTintColor(itemView.context,R.color.gray_dark)
-                    ivStar3.setTintColor(itemView.context,R.color.gray_dark)
-                    ivStar4.setTintColor(itemView.context,R.color.gray_dark)
-                    ivStar5.setTintColor(itemView.context,R.color.gray_dark)
+                    ivStar2.setTintColor(itemView.context, R.color.gray_dark)
+                    ivStar3.setTintColor(itemView.context, R.color.gray_dark)
+                    ivStar4.setTintColor(itemView.context, R.color.gray_dark)
+                    ivStar5.setTintColor(itemView.context, R.color.gray_dark)
                 }
 
                 2 -> {
-                    ivStar3.setTintColor(itemView.context,R.color.gray_dark)
-                    ivStar4.setTintColor(itemView.context,R.color.gray_dark)
-                    ivStar5.setTintColor(itemView.context,R.color.gray_dark)
+                    ivStar3.setTintColor(itemView.context, R.color.gray_dark)
+                    ivStar4.setTintColor(itemView.context, R.color.gray_dark)
+                    ivStar5.setTintColor(itemView.context, R.color.gray_dark)
                 }
 
                 3 -> {
-                    ivStar4.setTintColor(itemView.context,R.color.gray_dark)
-                    ivStar5.setTintColor(itemView.context,R.color.gray_dark)
+                    ivStar4.setTintColor(itemView.context, R.color.gray_dark)
+                    ivStar5.setTintColor(itemView.context, R.color.gray_dark)
                 }
 
-                4 -> ivStar5.setTintColor(itemView.context,R.color.gray_dark)
+                4 -> ivStar5.setTintColor(itemView.context, R.color.gray_dark)
             }
-        }
-
-        private fun getRatings(ratings: Float): Int = ratings.roundToInt() / 2
-
-        private fun getMovieTeg(movies: Movie): String {
-            val tegGenres = mutableListOf<String>()
-            for (teg in movies.genres){
-                tegGenres.add(teg.name)
-            }
-            return tegGenres.joinToString (", ")
         }
     }
 }

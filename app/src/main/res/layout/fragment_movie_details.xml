@@ -87,6 +87,16 @@
             app:layout_constraintStart_toEndOf="@+id/root_left_guideline"
             tools:text="@string/age_restrictions"/>
 
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="168dp"
+            android:id="@+id/pb_details_movie"
+            app:layout_constraintEnd_toStartOf="@+id/root_right_guideline"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/root_left_guideline"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/movie_name_text"
             android:layout_width="0dp"
@@ -225,14 +235,6 @@
             app:layout_constraintStart_toEndOf="@+id/root_left_guideline"
             app:layout_constraintTop_toBottomOf="@+id/movie_storyline_text" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_actor"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            app:layout_constraintStart_toEndOf="@+id/root_left_guideline"
-            app:layout_constraintEnd_toStartOf="@id/root_right_guideline"
-            app:layout_constraintTop_toBottomOf="@+id/movie_cast_title_text" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
