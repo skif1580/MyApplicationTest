@@ -4,11 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplicationtest.business.LoadLDataMovie
 import com.example.myapplicationtest.interactor.LoadListMovieInteractor
 import com.example.myapplicationtest.net.ApiException
 import com.example.myapplicationtest.net.response.MovieDetails
-import kotlinx.coroutines.Dispatchers.Default
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 

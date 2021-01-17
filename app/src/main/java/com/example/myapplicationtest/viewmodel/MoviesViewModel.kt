@@ -26,8 +26,7 @@ class MoviesViewModel(private val interactor: LoadListMovieInteractor) : ViewMod
             _stateLiveData.postValue(State.Loading())
             try {
                 val res = interactor.loadListPopularMovies()
-                if (res != null)
-                    _stateLiveData.postValue(State.Success(res))
+                _stateLiveData.postValue(State.Success(res))
             } catch (e: UnknownHostException) {
                 _stateLiveData.postValue(State.Error(999 to "Connection failed"))
             } catch (e: ApiException) {
@@ -46,41 +45,48 @@ class MoviesViewModel(private val interactor: LoadListMovieInteractor) : ViewMod
                 val data = interactor.loadTopMovies()
                 _stateLiveData.postValue(State.Success(data))
             } catch (e: UnknownHostException) {
+                _stateLiveData.postValue(State.Error(999 to "Connection failed"))
             } catch (e: ApiException) {
                 val code = e.code
                 val msg = e.msg
+                _stateLiveData.postValue(State.Error(code to msg))
             }
         }
     }
 
     fun getPlaningMovies() {
         viewModelScope.launch {
+            interactor.loadGenres()
+            _stateLiveData.postValue(State.Loading())
             try {
-
+                val res = interactor.loadPlaningMovies()
+                _stateLiveData.postValue(State.Success(res))
             } catch (e: UnknownHostException) {
-
+                _stateLiveData.postValue(State.Error(999 to "Connection failed"))
             } catch (e: ApiException) {
                 val code = e.code
                 val msg = e.msg
-
+                _stateLiveData.postValue(State.Error(code to msg))
             }
         }
     }
 
     fun getUpcomingMovies() {
         viewModelScope.launch {
+            interactor.loadGenres()
+            _stateLiveData.postValue(State.Loading())
             try {
-
+                val res = interactor.loadUpcomingMovies()
+                _stateLiveData.postValue(State.Success(res))
             } catch (e: UnknownHostException) {
-
+                _stateLiveData.postValue(State.Error(999 to "Connection failed"))
             } catch (e: ApiException) {
                 val code = e.code
                 val msg = e.msg
-
+                _stateLiveData.postValue(State.Error(code to msg))
             }
         }
     }
-
 }
 
 sealed class State {

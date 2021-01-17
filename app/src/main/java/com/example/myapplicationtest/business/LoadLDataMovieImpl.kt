@@ -6,7 +6,7 @@ import com.example.myapplicationtest.net.NetRepository
 import com.example.myapplicationtest.net.response.*
 import java.io.IOException
 
-class LoadLDataMovie(private val networkRepository :NetRepository) : LoadListMovieInteractor {
+class LoadLDataMovieImpl(private val networkRepository :NetRepository) : LoadListMovieInteractor {
     private lateinit var configuration: Configuration
     private var genres: Gengers? = null
 
@@ -21,7 +21,6 @@ class LoadLDataMovie(private val networkRepository :NetRepository) : LoadListMov
     override suspend fun loadListPopularMovies(): List<Movie> =
         networkRepository.getPopularMovies().getListMovie()
 
-
     override suspend fun loadTopMovies(): List<Movie> =
         networkRepository.getTopMovies().getListMovie()
 
@@ -33,7 +32,6 @@ class LoadLDataMovie(private val networkRepository :NetRepository) : LoadListMov
 
     override suspend fun loadMovieDetails(id: Int): MovieDetails =
         getMovieDetails(networkRepository.getMovieDetails(id))
-
 
     override suspend fun loadActorDetails(id: Int): ActorDetails =
         networkRepository.getActorDetails(id)
@@ -68,7 +66,6 @@ class LoadLDataMovie(private val networkRepository :NetRepository) : LoadListMov
                 it.voteAverage
             )
             listMovie.add(movie)
-
         }
         return listMovie
     }

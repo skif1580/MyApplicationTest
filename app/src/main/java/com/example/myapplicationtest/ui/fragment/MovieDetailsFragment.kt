@@ -1,7 +1,6 @@
 package com.example.myapplicationtest.ui.fragment
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -47,7 +46,7 @@ class MovieDetailsFragment : Fragment() {
     private var ratingStar3: ImageView? = null
     private var ratingStar4: ImageView? = null
     private var ratingStar5: ImageView? = null
-    private val detailsViewModel: DetailsViewModel by inject ()
+    private val detailsViewModel: DetailsViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +65,6 @@ class MovieDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        detailsViewModel.stateLiveData.observe(viewLifecycleOwner, this::setState)
         initUi(view)
         //initRecycler(view)
         detailsViewModel.stateLiveData.observe(viewLifecycleOwner, this::setState)
@@ -76,22 +74,22 @@ class MovieDetailsFragment : Fragment() {
     private fun setState(state: StateDetails) {
         when (state) {
             is StateDetails.Default -> {
-                showDefault()
+                showDefaultState()
             }
             is StateDetails.LoadData -> {
-                showLoading()
+                showLoadingState()
             }
             is StateDetails.Success -> {
-                showSuccess(state.data)
-                activity?.baseContext?.let { setColorRatingStar(it,state.data) }
+                showSuccessState(state.data)
+                setColorRatingStar(state.data)
             }
             is StateDetails.Error -> {
-                showError(state.error)
+                showErrorState(state.error)
             }
         }
     }
 
-    private fun showDefault() {
+    private fun showDefaultState() {
         ratingStar1?.isVisible = false
         ratingStar2?.isVisible = false
         ratingStar3?.isVisible = false
@@ -106,7 +104,7 @@ class MovieDetailsFragment : Fragment() {
         ivMovie?.isVisible = false
     }
 
-    private fun showLoading() {
+    private fun showLoadingState() {
         progressBar?.isVisible = true
         ratingStar1?.isVisible = false
         ratingStar2?.isVisible = false
@@ -122,7 +120,7 @@ class MovieDetailsFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun showSuccess(movie: MovieDetails) {
+    private fun showSuccessState(movie: MovieDetails) {
         progressBar?.visibility = GONE
         ratingStar1?.isVisible = true
         ratingStar2?.isVisible = true
@@ -147,7 +145,7 @@ class MovieDetailsFragment : Fragment() {
         ivMovie?.load(movie.backdropPath)
     }
 
-    private fun showError(error: Pair<Int, String>) {
+    private fun showErrorState(error: Pair<Int, String>) {
         progressBar?.visibility = GONE
         ratingStar1?.isVisible = false
         ratingStar2?.isVisible = false
@@ -163,29 +161,30 @@ class MovieDetailsFragment : Fragment() {
         ivMovie?.isVisible = false
     }
 
-    private fun setColorRatingStar(context: Context, movies: MovieDetails) {
+    private fun setColorRatingStar(movies: MovieDetails) {
         val rating = movies.voteAverage.roundToInt() / 2
         when (rating) {
             1 -> {
-                ratingStar2?.setTintColor(context, R.color.gray_dark)
-                ratingStar3?.setTintColor(context, R.color.gray_dark)
-                ratingStar4?.setTintColor(context, R.color.gray_dark)
-                ratingStar5?.setTintColor(context, R.color.gray_dark)
+                ratingStar2?.setTintColor(R.color.gray_dark)
+                ratingStar3?.setTintColor(R.color.gray_dark)
+                ratingStar4?.setTintColor(R.color.gray_dark)
+                ratingStar5?.setTintColor(R.color.gray_dark)
             }
 
             2 -> {
-                ratingStar3?.setTintColor(context, R.color.gray_dark)
-                ratingStar4?.setTintColor(context, R.color.gray_dark)
-                ratingStar5?.setTintColor(context, R.color.gray_dark)
+                ratingStar3?.setTintColor(R.color.gray_dark)
+                ratingStar4?.setTintColor(R.color.gray_dark)
+                ratingStar5?.setTintColor(R.color.gray_dark)
             }
             3 -> {
-                ratingStar4?.setTintColor(context, R.color.gray_dark)
-                ratingStar5?.setTintColor(context, R.color.gray_dark)
+                ratingStar4?.setTintColor(R.color.gray_dark)
+                ratingStar5?.setTintColor(R.color.gray_dark)
             }
             4 -> {
-                ratingStar5?.setTintColor(context, R.color.gray_dark)
+                ratingStar5?.setTintColor(R.color.gray_dark)
             }
-            5 -> { }
+            5 -> {
+            }
         }
     }
 
@@ -206,13 +205,8 @@ class MovieDetailsFragment : Fragment() {
 
     private fun getRatings(ratings: Float): Int = ratings.roundToInt() / 2
 
-    private fun getMovieTeg(movies: MovieDetails): String {
-        val tegGenres = mutableListOf<String>()
-        for (teg in movies.genres) {
-            tegGenres.add(teg.name)
-        }
-        return tegGenres.joinToString(",")
-    }
+    private fun getMovieTeg(movies: MovieDetails): String =
+        movies.genres.map { it.name }.toList().joinToString(", ")
 
 //    private fun initRecycler(view: View) {
 //        rvActor = view.findViewById(R.id.rv_actor)

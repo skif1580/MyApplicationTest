@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplicationtest.R
@@ -18,7 +17,6 @@ import com.example.myapplicationtest.data.Movie
 import com.example.myapplicationtest.viewmodel.MoviesViewModel
 import com.example.myapplicationtest.viewmodel.State
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.compat.ScopeCompat.viewModel
 
 
 class MoviesListFragment : Fragment() {
@@ -58,16 +56,16 @@ class MoviesListFragment : Fragment() {
     private fun setState(state: State) =
         when (state) {
             is State.Default -> {
-                showDefault()
+                showDefaultState()
             }
             is State.Loading -> {
-                showLoad()
+                showLoadState()
             }
             is State.Success -> {
-                showData(state.listMovie)
+                showDataState(state.listMovie)
             }
             is State.Error -> {
-                showErrorMessage(state.error)
+                showErrorMessageState(state.error)
             }
         }
 
@@ -86,23 +84,23 @@ class MoviesListFragment : Fragment() {
         progressBar = view.findViewById(R.id.pbLoad)
     }
 
-    private fun showDefault() {
+    private fun showDefaultState() {
         progressBar?.isVisible = false
         rvMovies?.isVisible = false
     }
 
-    private fun showLoad() {
+    private fun showLoadState() {
         progressBar?.isVisible = true
         rvMovies?.isVisible = false
     }
 
-    private fun showData(listMovie: List<Movie>) {
+    private fun showDataState(listMovie: List<Movie>) {
         progressBar?.visibility = GONE
         rvMovies?.isVisible = true
         moviesAdapter?.swapData(listMovie)
     }
 
-    private fun showErrorMessage(pair: Pair<Int, String>) {
+    private fun showErrorMessageState(pair: Pair<Int, String>) {
         progressBar?.visibility = GONE
         rvMovies?.isVisible = false
     }

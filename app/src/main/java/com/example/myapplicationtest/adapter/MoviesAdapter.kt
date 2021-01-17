@@ -25,7 +25,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesHolder>() {
     private var items = listOf<Movie>()
     private var clickListenerCallback: ((id: Int) -> Unit)? = null
 
-    fun clickListener(po: (id:Int) -> Unit) {
+    fun clickListener(po: (id: Int) -> Unit) {
         clickListenerCallback = po
     }
 
@@ -86,24 +86,24 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesHolder>() {
             when (rating) {
 
                 1 -> {
-                    ivStar2.setTintColor(itemView.context, R.color.gray_dark)
-                    ivStar3.setTintColor(itemView.context, R.color.gray_dark)
-                    ivStar4.setTintColor(itemView.context, R.color.gray_dark)
-                    ivStar5.setTintColor(itemView.context, R.color.gray_dark)
+                    ivStar2.setTintColor(R.color.gray_dark)
+                    ivStar3.setTintColor(R.color.gray_dark)
+                    ivStar4.setTintColor(R.color.gray_dark)
+                    ivStar5.setTintColor(R.color.gray_dark)
                 }
 
                 2 -> {
-                    ivStar3.setTintColor(itemView.context, R.color.gray_dark)
-                    ivStar4.setTintColor(itemView.context, R.color.gray_dark)
-                    ivStar5.setTintColor(itemView.context, R.color.gray_dark)
+                    ivStar3.setTintColor(R.color.gray_dark)
+                    ivStar4.setTintColor(R.color.gray_dark)
+                    ivStar5.setTintColor(R.color.gray_dark)
                 }
 
                 3 -> {
-                    ivStar4.setTintColor(itemView.context, R.color.gray_dark)
-                    ivStar5.setTintColor(itemView.context, R.color.gray_dark)
+                    ivStar4.setTintColor(R.color.gray_dark)
+                    ivStar5.setTintColor(R.color.gray_dark)
                 }
 
-                4 -> ivStar5.setTintColor(itemView.context, R.color.gray_dark)
+                4 -> ivStar5.setTintColor(R.color.gray_dark)
             }
         }
     }
