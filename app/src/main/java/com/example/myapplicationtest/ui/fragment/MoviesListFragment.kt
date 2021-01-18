@@ -2,86 +2,42 @@ package com.example.myapplicationtest.ui.fragment
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.ProgressBar
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplicationtest.R
 import com.example.myapplicationtest.adapter.MoviesAdapter
-import com.example.myapplicationtest.model.Movies
-import com.example.myapplicationtest.util.SpacesItemDecorationMovies
+import com.example.myapplicationtest.data.Movie
+import com.example.myapplicationtest.viewmodel.MoviesViewModel
+import com.example.myapplicationtest.viewmodel.State
+import org.koin.android.ext.android.inject
 
 
 class MoviesListFragment : Fragment() {
 
     private var clickListener: ClickMovies? = null
     private var rvMovies: RecyclerView? = null
-    private var listMovies = mutableListOf<Movies>()
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        listMovies.add(
-            Movies(
-                resources.getString(R.string.avengers_movie_name),
-                resources.getString(R.string.avengers_movie_tags),
-                "13+",
-                "125 Reviews",
-                "137 MIN",
-                R.drawable.movie,
-                4,
-                false
-            )
-        )
-
-        listMovies.add(
-            Movies(
-                resources.getString(R.string.movie_name_2),
-                resources.getString(R.string.movies_tags_2),
-                "16+",
-                "98 Reviews",
-                "97 MIN",
-                R.drawable.tenet,
-                5,
-                true
-            )
-        )
-
-        listMovies.add(
-            Movies(
-                resources.getString(R.string.movie_name_3),
-                resources.getString(R.string.movies_tags_3),
-                "13+",
-                "38 Reviews",
-                "102 MIN",
-                R.drawable.black_widow,
-                4,
-                false
-            )
-        )
-
-        listMovies.add(
-            Movies(
-                resources.getString(R.string.movie_name_4),
-                resources.getString(R.string.movies_tags_4),
-                "13+",
-                "74 Reviews",
-                "120 MIN",
-                R.drawable.wonder_woman,
-                5,
-                false
-            )
-        )
-    }
+    private var progressBar: ProgressBar? = null
+    private var moviesAdapter: MoviesAdapter? = null
+    private val viewModel: MoviesViewModel by  inject()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is ClickMovies) {
             clickListener = context
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.getTopMovies()
+        moviesAdapter = MoviesAdapter()
     }
 
     override fun onCreateView(
@@ -93,21 +49,60 @@ class MoviesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val moviesAdapter = MoviesAdapter(listMovies)
-        initUi(view, moviesAdapter)
+        initUi(view)
+        viewModel.stateLiveData.observe(viewLifecycleOwner, this::setState)
     }
 
-    private fun initUi(view: View, adapter: MoviesAdapter) {
+    private fun setState(state: State) =
+        when (state) {
+            is State.Default -> {
+                showDefaultState()
+            }
+            is State.Loading -> {
+                showLoadState()
+            }
+            is State.Success -> {
+                showDataState(state.listMovie)
+            }
+            is State.Error -> {
+                showErrorMessageState(state.error)
+            }
+        }
+
+
+    private fun initUi(view: View) {
         rvMovies = view.findViewById(R.id.rvMovies)
         rvMovies?.apply {
             setHasFixedSize(true)
-            addItemDecoration(SpacesItemDecorationMovies(11, 15))
-            this.adapter = adapter
+            // addItemDecoration(SpacesItemDecorationMovies(11, 15))
+            adapter = moviesAdapter
             layoutManager = GridLayoutManager(view.context, 2, GridLayoutManager.VERTICAL, false)
         }
-        adapter.clickListener {
+        moviesAdapter?.clickListener {
             clickListener?.clickMoviesListener(it)
         }
+        progressBar = view.findViewById(R.id.pbLoad)
+    }
+
+    private fun showDefaultState() {
+        progressBar?.isVisible = false
+        rvMovies?.isVisible = false
+    }
+
+    private fun showLoadState() {
+        progressBar?.isVisible = true
+        rvMovies?.isVisible = false
+    }
+
+    private fun showDataState(listMovie: List<Movie>) {
+        progressBar?.visibility = GONE
+        rvMovies?.isVisible = true
+        moviesAdapter?.swapData(listMovie)
+    }
+
+    private fun showErrorMessageState(pair: Pair<Int, String>) {
+        progressBar?.visibility = GONE
+        rvMovies?.isVisible = false
     }
 
     companion object {
@@ -122,5 +117,5 @@ class MoviesListFragment : Fragment() {
 }
 
 interface ClickMovies {
-    fun clickMoviesListener(movies: Movies)
+    fun clickMoviesListener(id: Int)
 }
